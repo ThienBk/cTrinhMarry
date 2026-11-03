@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ngô Trinh & Hoàng Hà | Lễ Thành Hôn</title>
+    <meta name="description"
+        content="Trân trọng kính mời đến dự lễ thành hôn của Ngô Trinh & Hoàng Hà - 28.11 & 29.11.2026" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Great+Vibes&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --cream: #fdf8f3;
+            --soft-gold: #c9a86c;
+            --deep-green: #2c4a3e;
+            --soft-green: #5a7d6a;
+            --blush: #f5e6e0;
+            --text-dark: #2a2a2a;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Three.js canvas */
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* Main content above particles */
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('JULI4601.jpg') center 25% / cover no-repeat;
+            filter: brightness(0.88);
+            transform: scale(1.02);
+            transition: transform 6s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .hero-bg {
+                background-position: center 20%;
+            }
+        }
+
+        .hero:hover .hero-bg {
+            transform: scale(1.06);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                    rgba(253, 248, 243, 0.15) 0%,
+                    rgba(44, 74, 62, 0.25) 40%,
+                    rgba(44, 74, 62, 0.55) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            color: var(--white);
+            padding: 2rem;
+            max-width: 900px;
+            animation: fadeUp 1.8s ease-out;
+        }
+
+        .hero-label {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.4rem, 3vw, 2.2rem);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            opacity: 0.95;
+        }
+
+        .hero-names {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 8vw, 5.5rem);
+            font-weight: 500;
+            line-height: 1.15;
+            margin: 0.8rem 0;
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-names span {
+            display: block;
+            font-size: 0.55em;
+            font-weight: 400;
+            letter-spacing: 8px;
+            margin: 0.3rem 0;
+            opacity: 0.9;
+        }
+
+        .hero-date {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            letter-spacing: 4px;
+            margin-top: 1.5rem;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+
+        .hero-lunar {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            margin-top: 0.4rem;
+            font-style: italic;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            animation: bounce 2.5s infinite;
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            text-align: center;
+            color: var(--deep-green);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.6rem;
+            color: var(--soft-gold);
+            margin-bottom: 3rem;
+        }
+
+        .divider {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--soft-gold), transparent);
+            margin: 0 auto 2.5rem;
+        }
+
+        /* Intro */
+        .intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.25rem;
+            color: #444;
+        }
+
+        .intro p {
+            margin-bottom: 1.2rem;
+        }
+
+        /* Gallery / Photo Card */
+        .wedding-photo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .photo-card {
+            position: relative;
+            max-width: 550px;
+            width: 100%;
+            background: #ffffff;
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(44, 74, 62, 0.12);
+            border: 1px solid rgba(201, 168, 108, 0.3);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(44, 74, 62, 0.18);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        @media (max-width: 480px) {
+            .photo-card {
+                padding: 8px;
+                border-radius: 12px;
+            }
+
+            .photo-card img {
+                border-radius: 8px;
+            }
+        }
+
+        /* Events */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 1rem;
+        }
+
+        .event-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2.2rem 1.8rem;
+            box-shadow: 0 10px 40px rgba(44, 74, 62, 0.08);
+            border: 1px solid rgba(201, 168, 108, 0.25);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--soft-gold), var(--soft-green));
+        }
+
+        .event-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(44, 74, 62, 0.12);
+        }
+
+        .event-day {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            color: var(--deep-green);
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .event-month {
+            font-size: 1rem;
+            letter-spacing: 3px;
+            color: var(--soft-gold);
+            margin-bottom: 0.8rem;
+        }
+
+        .event-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--deep-green);
+            margin: 1rem 0 0.5rem;
+        }
+
+        .event-time {
+            font-size: 1.15rem;
+            color: var(--soft-green);
+            margin-bottom: 1rem;
+        }
+
+        .event-location {
+            font-size: 1.05rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .event-lunar {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #777;
+            margin-top: 0.8rem;
+        }
+
+        /* Parents */
+        .parents-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 600px) {
+            .parents-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .parent-box {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            border: 1px solid rgba(201, 168, 108, 0.2);
+        }
+
+        .parent-label {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.5rem;
+            color: var(--soft-gold);
+            margin-bottom: 0.8rem;
+        }
+
+        .parent-names {
+            font-size: 1.15rem;
+            color: var(--deep-green);
+            line-height: 1.7;
+        }
+
+        /* Countdown */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .count-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            min-width: 90px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(44, 74, 62, 0.08);
+            border: 1px solid rgba(201, 168, 108, 0.2);
+        }
+
+        .count-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            color: var(--deep-green);
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .count-label {
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: var(--soft-gold);
+            margin-top: 0.3rem;
+            text-transform: uppercase;
+        }
+
+        /* Gallery / Invite */
+        .invite-preview {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .invite-preview img {
+            max-width: 280px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s ease;
+        }
+
+        .invite-preview img:hover {
+            transform: scale(1.03);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 1.5rem 3rem;
+            background: linear-gradient(to bottom, transparent, rgba(44, 74, 62, 0.05));
+        }
+
+        .footer-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.4rem;
+            color: var(--deep-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-quote {
+            font-style: italic;
+            color: #666;
+            max-width: 500px;
+            margin: 1rem auto 2rem;
+            font-size: 1.15rem;
+        }
+
+        .footer-heart {
+            font-size: 1.5rem;
+            color: var(--soft-gold);
+        }
+
+        /* Music player */
+        .music-btn {
+            position: fixed;
+            bottom: 1.8rem;
+            right: 1.8rem;
+            z-index: 100;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--deep-green);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(44, 74, 62, 0.35);
+            transition: transform 0.3s ease, background 0.3s;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.08);
+            background: #1e3a2f;
+        }
+
+        .music-btn.playing {
+            animation: pulse 2s infinite;
+        }
+
+        .music-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-12px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-6px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(44, 74, 62, 0.5);
+            }
+
+            70% {
+                box-shadow: 0 0 0 14px rgba(44, 74, 62, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(44, 74, 62, 0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            section {
+                padding: 3.5rem 1.2rem;
+            }
+
+            .hero-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="three-canvas"></canvas>
+
+    <div class="content">
+        <!-- Hero -->
+        <header class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="hero-label">Trân trọng kính mời</div>
+                <h1 class="hero-names">
+                    Ngô Trinh
+                    <span>&</span>
+                    Hoàng Hà
+                </h1>
+                <div class="hero-date">28 · 11 · 2026 & 29 · 11 · 2026</div>
+                <div class="hero-lunar">Tháng 10 năm Bính Ngọ</div>
+            </div>
+            <div class="scroll-hint">↓ Cuộn xuống</div>
+        </header>
+
+        <!-- Intro -->
+        <section class="fade-in">
+            <h2 class="section-title">Lời mời</h2>
+            <div class="section-subtitle">Chúng tôi trân trọng kính mời</div>
+            <div class="divider"></div>
+            <div class="intro">
+                <p>Với tình yêu thương và sự trân trọng sâu sắc, gia đình chúng tôi xin kính mời quý khách đến dự buổi
+                    tiệc thân mật và lễ thành hôn của hai con.</p>
+                <p>Sự hiện diện của quý vị sẽ là niềm vinh hạnh lớn lao và làm cho ngày vui của chúng tôi thêm trọn vẹn.
+                </p>
+            </div>
+        </section>
+
+        <!-- Album ảnh cưới -->
+        <section class="fade-in">
+            <h2 class="section-title">Khoảnh Khắc Hạnh Phúc</h2>
+            <div class="section-subtitle">Tình yêu tỏa sáng</div>
+            <div class="divider"></div>
+            <div class="wedding-photo-container">
+                <div class="photo-card">
+                    <img src="JULI4601.jpg" alt="Ảnh cưới Ngô Trinh & Hoàng Hà" loading="lazy" />
+                </div>
+            </div>
+        </section>
+
+        <!-- Events -->
+        <section class="fade-in">
+            <h2 class="section-title">Lịch trình</h2>
+            <div class="section-subtitle">Những khoảnh khắc đáng nhớ</div>
+            <div class="divider"></div>
+
+            <div class="events-grid">
+                <!-- 28/11 -->
+                <div class="event-card">
+                    <div class="event-day">28</div>
+                    <div class="event-month">THÁNG 11 · THỨ BẢY</div>
+                    <div class="event-title">Bữa cơm thân mật</div>
+                    <div class="event-time">16:30</div>
+                    <div class="event-location">
+                        <strong>Tại gia đình Nhà gái</strong><br>
+                        Ngõ 107, Thụy Lôi 2<br>
+                        Xã Thư Lâm, Hà Nội
+                    </div>
+                    <div class="event-lunar">Tức ngày 20 tháng 10 năm Bính Ngọ</div>
+                </div>
+
+                <!-- 29/11 Ceremony -->
+                <div class="event-card">
+                    <div class="event-day">29</div>
+                    <div class="event-month">THÁNG 11 · CHỦ NHẬT</div>
+                    <div class="event-title">Lễ Thành Hôn</div>
+                    <div class="event-time">11:00</div>
+                    <div class="event-location">
+                        <strong>Tại tư gia Nhà trai</strong><br>
+                        Số 19, Ngõ 28 Lê Trọng Tấn<br>
+                        Hà Đông, Hà Nội
+                    </div>
+                    <div class="event-lunar">Tức ngày 21 tháng 10 năm Bính Ngọ</div>
+                </div>
+
+                <!-- 29/11 Reception -->
+                <div class="event-card">
+                    <div class="event-day">29</div>
+                    <div class="event-month">THÁNG 11 · CHỦ NHẬT</div>
+                    <div class="event-title">Tiệc Cưới</div>
+                    <div class="event-time">11:00</div>
+                    <div class="event-location">
+                        <strong>Trống Đồng Palace</strong><br>
+                        Tầng 2 · Trung tâm tổ chức sự kiện<br>
+                        Phường Hà Đông, Hà Nội
+                    </div>
+                    <div class="event-lunar">Tức ngày 21 tháng 10 năm Bính Ngọ</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Parents -->
+        <section class="fade-in">
+            <h2 class="section-title">Gia đình</h2>
+            <div class="section-subtitle">Với tình yêu của bố mẹ</div>
+            <div class="divider"></div>
+
+            <div class="parents-grid">
+                <div class="parent-box">
+                    <div class="parent-label">Nhà gái</div>
+                    <div class="parent-names">
+                        Ông Ngô Đắc Lập<br>
+                        Bà Ngô Thị Bẩy
+                    </div>
+                </div>
+                <div class="parent-box">
+                    <div class="parent-label">Nhà trai</div>
+                    <div class="parent-names">
+                        Ông Nguyễn Văn Hiền<br>
+                        Bà Nguyễn Thị Thúy
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Countdown -->
+        <section class="fade-in">
+            <h2 class="section-title">Đếm ngược</h2>
+            <div class="section-subtitle">Đến ngày trọng đại</div>
+            <div class="divider"></div>
+            <div class="countdown" id="countdown">
+                <div class="count-item">
+                    <div class="count-num" id="days">00</div>
+                    <div class="count-label">Ngày</div>
+                </div>
+                <div class="count-item">
+                    <div class="count-num" id="hours">00</div>
+                    <div class="count-label">Giờ</div>
+                </div>
+                <div class="count-item">
+                    <div class="count-num" id="mins">00</div>
+                    <div class="count-label">Phút</div>
+                </div>
+                <div class="count-item">
+                    <div class="count-num" id="secs">00</div>
+                    <div class="count-label">Giây</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Invite cards -->
+        <section class="fade-in">
+            <h2 class="section-title">Thiệp mời</h2>
+            <div class="section-subtitle">Mời bạn cùng chung vui</div>
+            <div class="divider"></div>
+            <div class="invite-preview">
+                <img src="invite1.jpg" alt="Thiệp mời bữa cơm thân mật" loading="lazy" />
+                <img src="invite2.jpg" alt="Thiệp mời lễ thành hôn" loading="lazy" />
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-names">Trinh & Hà</div>
+            <p class="footer-quote">“Sự hiện diện của Quý vị là niềm vinh hạnh cho gia đình chúng tôi!”</p>
+            <div class="footer-heart">♥</div>
+            <p style="margin-top: 1.5rem; font-size: 0.95rem; color: #888;">
+                28 & 29 Tháng 11, 2026 · Hà Nội
+            </p>
+        </footer>
+    </div>
+
+    <!-- Music Player HTML -->
+    <!-- Thêm thuộc tính muted và playsinline -->
+    <audio id="wedding-audio" loop autoplay muted preload="auto">
+        <source src="music.mp3" type="audio/mp3">
+        Trình duyệt của bạn không hỗ trợ phát audio.
+    </audio>
+
+    <!-- Music Button -->
+    <button class="music-btn" id="musicBtn" title="Bật/Tắt nhạc nền">
+        <svg id="playIcon" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+        </svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+        </svg>
+    </button>
+
+    <script>
+        // ========== Three.js Romantic Particles ==========
+        (function () {
+            const canvas = document.getElementById('three-canvas');
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+
+            // Soft ambient
+            const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambient);
+
+            // Particle system - floating petals / soft orbs
+            const particleCount = 120;
+            const positions = new Float32Array(particleCount * 3);
+            const velocities = [];
+            const sizes = new Float32Array(particleCount);
+            const colors = new Float32Array(particleCount * 3);
+
+            const colorPalette = [
+                new THREE.Color(0xffffff),
+                new THREE.Color(0xf5e6e0),
+                new THREE.Color(0xc9a86c),
+                new THREE.Color(0xe8d5b7),
+                new THREE.Color(0xd4e8d4)
+            ];
+
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 60;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 40;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 30;
+
+                velocities.push({
+                    x: (Math.random() - 0.5) * 0.015,
+                    y: Math.random() * 0.02 + 0.008,
+                    z: (Math.random() - 0.5) * 0.01,
+                    rot: Math.random() * 0.02
+                });
+
+                sizes[i] = Math.random() * 1.8 + 0.6;
+
+                const c = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+                colors[i * 3] = c.r;
+                colors[i * 3 + 1] = c.g;
+                colors[i * 3 + 2] = c.b;
+            }
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            // Soft circle texture
+            const canvasTex = document.createElement('canvas');
+            canvasTex.width = 64;
+            canvasTex.height = 64;
+            const ctx = canvasTex.getContext('2d');
+            const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(0.4, 'rgba(255,255,255,0.6)');
+            gradient.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 64, 64);
+            const texture = new THREE.CanvasTexture(canvasTex);
+
+            const material = new THREE.PointsMaterial({
+                size: 1.4,
+                map: texture,
+                transparent: true,
+                opacity: 0.75,
+                vertexColors: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                sizeAttenuation: true
+            });
+
+            const particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            // Gentle floating hearts (simple sprites)
+            const heartCount = 18;
+            const hearts = [];
+            const heartGeo = new THREE.PlaneGeometry(0.6, 0.6);
+            const heartMat = new THREE.MeshBasicMaterial({
+                color: 0xf5e6e0,
+                transparent: true,
+                opacity: 0.35,
+                side: THREE.DoubleSide,
+                depthWrite: false
+            });
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = new THREE.Mesh(heartGeo, heartMat.clone());
+                heart.position.set(
+                    (Math.random() - 0.5) * 50,
+                    (Math.random() - 0.5) * 30,
+                    (Math.random() - 0.5) * 20
+                );
+                heart.userData = {
+                    speed: Math.random() * 0.012 + 0.005,
+                    rotSpeed: (Math.random() - 0.5) * 0.01,
+                    sway: Math.random() * 0.008
+                };
+                scene.add(heart);
+                hearts.push(heart);
+            }
+
+            let time = 0;
+            function animate() {
+                requestAnimationFrame(animate);
+                time += 0.01;
+
+                const pos = geometry.attributes.position.array;
+                for (let i = 0; i < particleCount; i++) {
+                    const v = velocities[i];
+                    pos[i * 3] += v.x + Math.sin(time + i) * 0.003;
+                    pos[i * 3 + 1] += v.y;
+                    pos[i * 3 + 2] += v.z;
+
+                    // Reset when out of view
+                    if (pos[i * 3 + 1] > 25) {
+                        pos[i * 3 + 1] = -25;
+                        pos[i * 3] = (Math.random() - 0.5) * 60;
+                    }
+                }
+                geometry.attributes.position.needsUpdate = true;
+
+                // Hearts
+                hearts.forEach((h, i) => {
+                    h.position.y += h.userData.speed;
+                    h.position.x += Math.sin(time * 0.5 + i) * h.userData.sway;
+                    h.rotation.z += h.userData.rotSpeed;
+                    if (h.position.y > 22) {
+                        h.position.y = -22;
+                        h.position.x = (Math.random() - 0.5) * 50;
+                    }
+                });
+
+                // Very gentle camera sway
+                camera.position.x = Math.sin(time * 0.15) * 1.2;
+                camera.position.y = Math.cos(time * 0.1) * 0.8;
+                camera.lookAt(0, 0, 0);
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        })();
+
+        // ========== Countdown ==========
+        (function () {
+            // Target: 29 Nov 2026 11:00 (Vietnam time UTC+7)
+            const target = new Date('2026-11-29T11:00:00+07:00').getTime();
+
+            function update() {
+                const now = Date.now();
+                const diff = Math.max(0, target - now);
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('mins').textContent = String(mins).padStart(2, '0');
+                document.getElementById('secs').textContent = String(secs).padStart(2, '0');
+            }
+            update();
+            setInterval(update, 1000);
+        })();
+
+        // ========== Scroll fade-in ==========
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // ========== Local Audio Controller ==========
+        const audio = document.getElementById('wedding-audio');
+        const musicBtn = document.getElementById('musicBtn');
+        const playIcon = document.getElementById('playIcon');
+        const pauseIcon = document.getElementById('pauseIcon');
+        let isPlaying = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                musicBtn.classList.remove('playing');
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            } else {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicBtn.classList.add('playing');
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                }).catch(err => {
+                    console.log('Playback error:', err);
+                });
+            }
+        });
+
+        // Tự động bật tiếng khi người dùng tương tác lần đầu tiên với trang web
+        document.addEventListener('click', function enableAudioOnFirstClick() {
+            if (audio.muted) {
+                audio.muted = false;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicBtn.classList.add('playing');
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = 'block';
+                }).catch(err => {
+                    console.log('Unmute error:', err);
+                });
+            }
+            // Xóa sự kiện sau lần click đầu tiên để không lặp lại
+            document.removeEventListener('click', enableAudioOnFirstClick);
+        }, { once: true });
+    </script>
+</body>
+
+</html>
