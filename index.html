@@ -10,17 +10,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Great+Vibes&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Great+Vibes&display=swap"
         rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root {
             --cream: #fdf8f3;
-            --soft-gold: #c9a86c;
-            --deep-green: #2c4a3e;
-            --soft-green: #5a7d6a;
+            --soft-gold: #b38b46;
+            --deep-green: #1e362d;
+            --soft-green: #436352;
             --blush: #f5e6e0;
-            --text-dark: #2a2a2a;
+            --text-dark: #1a1a1a;
             --white: #ffffff;
         }
 
@@ -36,10 +36,12 @@
 
         body {
             font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
             background: var(--cream);
             color: var(--text-dark);
             overflow-x: hidden;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Three.js canvas */
@@ -74,7 +76,7 @@
             position: absolute;
             inset: 0;
             background: url('JULI4601.jpg') center 25% / cover no-repeat;
-            filter: brightness(0.88);
+            filter: brightness(0.85);
             transform: scale(1.02);
             transition: transform 6s ease-out;
         }
@@ -94,8 +96,8 @@
             inset: 0;
             background: linear-gradient(to bottom,
                     rgba(253, 248, 243, 0.15) 0%,
-                    rgba(44, 74, 62, 0.25) 40%,
-                    rgba(44, 74, 62, 0.55) 100%);
+                    rgba(30, 54, 45, 0.35) 40%,
+                    rgba(30, 54, 45, 0.70) 100%);
         }
 
         .hero-content {
@@ -109,43 +111,47 @@
 
         .hero-label {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(1.4rem, 3vw, 2.2rem);
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
             letter-spacing: 2px;
             margin-bottom: 0.5rem;
-            opacity: 0.95;
+            opacity: 0.98;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
         .hero-names {
             font-family: 'Playfair Display', serif;
             font-size: clamp(2.8rem, 8vw, 5.5rem);
-            font-weight: 500;
+            font-weight: 700;
             line-height: 1.15;
             margin: 0.8rem 0;
-            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
 
         .hero-names span {
             display: block;
             font-size: 0.55em;
-            font-weight: 400;
+            font-weight: 600;
             letter-spacing: 8px;
             margin: 0.3rem 0;
-            opacity: 0.9;
-        }
-
-        .hero-date {
-            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-            letter-spacing: 4px;
-            margin-top: 1.5rem;
-            font-weight: 400;
             opacity: 0.95;
         }
 
+        .hero-date {
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            letter-spacing: 4px;
+            margin-top: 1.5rem;
+            font-weight: 600;
+            opacity: 0.98;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
         .hero-lunar {
-            font-size: 0.95rem;
-            opacity: 0.85;
+            font-size: 1rem;
+            opacity: 0.9;
             margin-top: 0.4rem;
             font-style: italic;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
         }
 
         .scroll-hint {
@@ -154,9 +160,11 @@
             left: 50%;
             transform: translateX(-50%);
             color: white;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             letter-spacing: 2px;
-            opacity: 0.8;
+            font-weight: 600;
+            opacity: 0.9;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.5);
             animation: bounce 2.5s infinite;
         }
 
@@ -173,20 +181,20 @@
             text-align: center;
             color: var(--deep-green);
             margin-bottom: 0.5rem;
-            font-weight: 500;
+            font-weight: 700;
         }
 
         .section-subtitle {
             text-align: center;
             font-family: 'Great Vibes', cursive;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             color: var(--soft-gold);
             margin-bottom: 3rem;
         }
 
         .divider {
             width: 80px;
-            height: 1px;
+            height: 2px;
             background: linear-gradient(to right, transparent, var(--soft-gold), transparent);
             margin: 0 auto 2.5rem;
         }
@@ -196,8 +204,9 @@
             text-align: center;
             max-width: 700px;
             margin: 0 auto;
-            font-size: 1.25rem;
-            color: #444;
+            font-size: 1.3rem;
+            color: #222222;
+            font-weight: 600;
         }
 
         .intro p {
@@ -219,14 +228,14 @@
             background: #ffffff;
             padding: 12px;
             border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(44, 74, 62, 0.12);
-            border: 1px solid rgba(201, 168, 108, 0.3);
+            box-shadow: 0 15px 35px rgba(30, 54, 45, 0.15);
+            border: 1px solid rgba(179, 139, 70, 0.4);
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
         .photo-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 45px rgba(44, 74, 62, 0.18);
+            box-shadow: 0 20px 45px rgba(30, 54, 45, 0.22);
         }
 
         .photo-card img {
@@ -260,8 +269,8 @@
             background: var(--white);
             border-radius: 16px;
             padding: 2.2rem 1.8rem;
-            box-shadow: 0 10px 40px rgba(44, 74, 62, 0.08);
-            border: 1px solid rgba(201, 168, 108, 0.25);
+            box-shadow: 0 10px 40px rgba(30, 54, 45, 0.12);
+            border: 1px solid rgba(179, 139, 70, 0.35);
             transition: transform 0.4s ease, box-shadow 0.4s ease;
             position: relative;
             overflow: hidden;
@@ -279,48 +288,58 @@
 
         .event-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(44, 74, 62, 0.12);
+            box-shadow: 0 20px 50px rgba(30, 54, 45, 0.18);
         }
 
         .event-day {
             font-family: 'Playfair Display', serif;
-            font-size: 2.8rem;
+            font-size: 3rem;
             color: var(--deep-green);
-            font-weight: 600;
+            font-weight: 700;
             line-height: 1;
         }
 
         .event-month {
-            font-size: 1rem;
+            font-size: 1.05rem;
             letter-spacing: 3px;
             color: var(--soft-gold);
             margin-bottom: 0.8rem;
+            font-weight: 700;
         }
 
         .event-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             color: var(--deep-green);
             margin: 1rem 0 0.5rem;
+            font-weight: 700;
         }
 
         .event-time {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             color: var(--soft-green);
             margin-bottom: 1rem;
+            font-weight: 700;
         }
 
         .event-location {
-            font-size: 1.05rem;
-            color: #555;
-            line-height: 1.5;
+            font-size: 1.1rem;
+            color: #222222;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .event-location strong {
+            color: var(--deep-green);
+            font-weight: 700;
         }
 
         .event-lunar {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-style: italic;
-            color: #777;
+            color: #555555;
             margin-top: 0.8rem;
+            font-weight: 500;
         }
 
         /* Parents */
@@ -341,22 +360,24 @@
         .parent-box {
             text-align: center;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
-            border: 1px solid rgba(201, 168, 108, 0.2);
+            border: 1px solid rgba(179, 139, 70, 0.35);
+            box-shadow: 0 4px 15px rgba(30, 54, 45, 0.05);
         }
 
         .parent-label {
             font-family: 'Great Vibes', cursive;
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             color: var(--soft-gold);
             margin-bottom: 0.8rem;
         }
 
         .parent-names {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             color: var(--deep-green);
             line-height: 1.7;
+            font-weight: 700;
         }
 
         /* Countdown */
@@ -372,26 +393,27 @@
             background: var(--white);
             border-radius: 12px;
             padding: 1.2rem 1.5rem;
-            min-width: 90px;
+            min-width: 95px;
             text-align: center;
-            box-shadow: 0 8px 30px rgba(44, 74, 62, 0.08);
-            border: 1px solid rgba(201, 168, 108, 0.2);
+            box-shadow: 0 8px 30px rgba(30, 54, 45, 0.1);
+            border: 1px solid rgba(179, 139, 70, 0.3);
         }
 
         .count-num {
             font-family: 'Playfair Display', serif;
-            font-size: 2.4rem;
+            font-size: 2.6rem;
             color: var(--deep-green);
-            font-weight: 600;
+            font-weight: 700;
             line-height: 1;
         }
 
         .count-label {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             letter-spacing: 1px;
             color: var(--soft-gold);
             margin-top: 0.3rem;
             text-transform: uppercase;
+            font-weight: 700;
         }
 
         /* Gallery / Invite */
@@ -407,7 +429,7 @@
             max-width: 280px;
             width: 100%;
             border-radius: 12px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
             transition: transform 0.4s ease;
         }
 
@@ -419,26 +441,27 @@
         footer {
             text-align: center;
             padding: 4rem 1.5rem 3rem;
-            background: linear-gradient(to bottom, transparent, rgba(44, 74, 62, 0.05));
+            background: linear-gradient(to bottom, transparent, rgba(30, 54, 45, 0.08));
         }
 
         .footer-names {
             font-family: 'Great Vibes', cursive;
-            font-size: 2.4rem;
+            font-size: 2.6rem;
             color: var(--deep-green);
             margin-bottom: 0.5rem;
         }
 
         .footer-quote {
             font-style: italic;
-            color: #666;
+            color: #333333;
             max-width: 500px;
             margin: 1rem auto 2rem;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
         .footer-heart {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--soft-gold);
         }
 
@@ -458,13 +481,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 25px rgba(44, 74, 62, 0.35);
+            box-shadow: 0 8px 25px rgba(30, 54, 45, 0.4);
             transition: transform 0.3s ease, background 0.3s;
         }
 
         .music-btn:hover {
             transform: scale(1.08);
-            background: #1e3a2f;
+            background: #14241e;
         }
 
         .music-btn.playing {
@@ -511,15 +534,15 @@
 
         @keyframes pulse {
             0% {
-                box-shadow: 0 0 0 0 rgba(44, 74, 62, 0.5);
+                box-shadow: 0 0 0 0 rgba(30, 54, 45, 0.6);
             }
 
             70% {
-                box-shadow: 0 0 0 14px rgba(44, 74, 62, 0);
+                box-shadow: 0 0 0 14px rgba(30, 54, 45, 0);
             }
 
             100% {
-                box-shadow: 0 0 0 0 rgba(44, 74, 62, 0);
+                box-shadow: 0 0 0 0 rgba(30, 54, 45, 0);
             }
         }
 
@@ -709,14 +732,13 @@
             <div class="footer-names">Trinh & Hà</div>
             <p class="footer-quote">“Sự hiện diện của Quý vị là niềm vinh hạnh cho gia đình chúng tôi!”</p>
             <div class="footer-heart">♥</div>
-            <p style="margin-top: 1.5rem; font-size: 0.95rem; color: #888;">
+            <p style="margin-top: 1.5rem; font-size: 0.95rem; color: #666666; font-weight: 600;">
                 28 & 29 Tháng 11, 2026 · Hà Nội
             </p>
         </footer>
     </div>
 
     <!-- Music Player HTML -->
-    <!-- Thêm thuộc tính muted và playsinline -->
     <audio id="wedding-audio" loop autoplay muted preload="auto">
         <source src="music.mp3" type="audio/mp3">
         Trình duyệt của bạn không hỗ trợ phát audio.
