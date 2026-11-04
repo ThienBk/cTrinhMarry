@@ -1133,10 +1133,11 @@
         </svg>
     </button>
 
-    <script>
+   <script>
         // ========== Three.js Romantic Particles ==========
         (function () {
             const canvas = document.getElementById('three-canvas');
+            if (!canvas) return;
             const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -1297,10 +1298,15 @@
                 const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
-                document.getElementById('days').textContent = String(days).padStart(2, '0');
-                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-                document.getElementById('mins').textContent = String(mins).padStart(2, '0');
-                document.getElementById('secs').textContent = String(secs).padStart(2, '0');
+                const daysEl = document.getElementById('days');
+                const hoursEl = document.getElementById('hours');
+                const minsEl = document.getElementById('mins');
+                const secsEl = document.getElementById('secs');
+
+                if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+                if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+                if (minsEl) minsEl.textContent = String(mins).padStart(2, '0');
+                if (secsEl) secsEl.textContent = String(secs).padStart(2, '0');
             }
             update();
             setInterval(update, 1000);
@@ -1324,39 +1330,41 @@
         const pauseIcon = document.getElementById('pauseIcon');
         let isPlaying = false;
 
-        musicBtn.addEventListener('click', () => {
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                musicBtn.classList.remove('playing');
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
-            } else {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    musicBtn.classList.add('playing');
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'block';
-                }).catch(err => {
-                    console.log('Playback error:', err);
-                });
-            }
-        });
+        if (musicBtn && audio) {
+            musicBtn.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio.pause();
+                    isPlaying = false;
+                    musicBtn.classList.remove('playing');
+                    if (playIcon) playIcon.style.display = 'block';
+                    if (pauseIcon) pauseIcon.style.display = 'none';
+                } else {
+                    audio.play().then(() => {
+                        isPlaying = true;
+                        musicBtn.classList.add('playing');
+                        if (playIcon) playIcon.style.display = 'none';
+                        if (pauseIcon) pauseIcon.style.display = 'block';
+                    }).catch(err => {
+                        console.log('Playback error:', err);
+                    });
+                }
+            });
 
-        document.addEventListener('click', function enableAudioOnFirstClick() {
-            if (audio.muted) {
-                audio.muted = false;
-                audio.play().then(() => {
-                    isPlaying = true;
-                    musicBtn.classList.add('playing');
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = 'block';
-                }).catch(err => {
-                    console.log('Unmute error:', err);
-                });
-            }
-            document.removeEventListener('click', enableAudioOnFirstClick);
-        }, { once: true });
+            document.addEventListener('click', function enableAudioOnFirstClick() {
+                if (audio.muted) {
+                    audio.muted = false;
+                    audio.play().then(() => {
+                        isPlaying = true;
+                        musicBtn.classList.add('playing');
+                        if (playIcon) playIcon.style.display = 'none';
+                        if (pauseIcon) pauseIcon.style.display = 'block';
+                    }).catch(err => {
+                        console.log('Unmute error:', err);
+                    });
+                }
+                document.removeEventListener('click', enableAudioOnFirstClick);
+            }, { once: true });
+        }
 
         // ========== RSVP Logic ==========
         let attendingStatus = 'YES'; 
@@ -1370,65 +1378,58 @@
         const btnPlus = document.getElementById('btnPlus');
         const btnSubmitRsvp = document.getElementById('btnSubmitRsvp');
 
-        btnYes.addEventListener('click', () => {
-            attendingStatus = 'YES';
-            btnYes.className = 'rsvp-btn-opt active-yes';
-            btnNo.className = 'rsvp-btn-opt inactive-no';
-            guestCounterBox.style.display = 'flex';
-        });
+        if (btnYes && btnNo) {
+            btnYes.addEventListener('click', () => {
+                attendingStatus = 'YES';
+                btnYes.className = 'rsvp-btn-opt active-yes';
+                btnNo.className = 'rsvp-btn-opt inactive-no';
+                if (guestCounterBox) guestCounterBox.style.display = 'flex';
+            });
 
-        btnNo.addEventListener('click', () => {
-            attendingStatus = 'NO';
-            btnNo.className = 'rsvp-btn-opt active-no';
-            btnYes.className = 'rsvp-btn-opt inactive-yes';
-            guestCounterBox.style.display = 'none';
-        });
-
-        btnMinus.addEventListener('click', () => {
-            if (guestCount > 1) {
-                guestCount--;
-                guestCountEl.textContent = guestCount;
-            }
-        });
-
-        btnPlus.addEventListener('click', () => {
-            guestCount++;
-            guestCountEl.textContent = guestCount;
-        });
-
-        btnSubmitRsvp.addEventListener('click', () => {
-            if (attendingStatus === 'YES') {
-                alert(`Cảm ơn bạn đã xác nhận tham dự cùng ${guestCount} người! Tụi mình rất hân hạnh được đón tiếp.`);
-            } else {
-                alert('Cảm ơn bạn đã phản hồi! Tụi mình rất tiếc vì bạn không thể tham dự.');
-            }
-        });
-
-        // ========== Guestbook Logic ==========
-        const guestName = document.getElementById('guestName');
-        const guestWish = document.getElementById('guestWish');
-        const btnSubmitWish = document.getElementById('btnSubmitWish');
-        const wishesList = document.getElementById('wishesList');
-        const noWishesText = document.getElementById('noWishesText');
-
-        const savedWishes = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
-        if (savedWishes.length > 0) {
-            noWishesText.style.display = 'none';
-            savedWishes.forEach(item => renderWish(item.name, item.text));
+            btnNo.addEventListener('click', () => {
+                attendingStatus = 'NO';
+                btnNo.className = 'rsvp-btn-opt active-no';
+                btnYes.className = 'rsvp-btn-opt inactive-yes';
+                if (guestCounterBox) guestCounterBox.style.display = 'none';
+            });
         }
 
-// ========== Guestbook Logic ==========
-        const guestName = document.getElementById('guestName');
-        const guestWish = document.getElementById('guestWish');
+        if (btnMinus && btnPlus && guestCountEl) {
+            btnMinus.addEventListener('click', () => {
+                if (guestCount > 1) {
+                    guestCount--;
+                    guestCountEl.textContent = guestCount;
+                }
+            });
+
+            btnPlus.addEventListener('click', () => {
+                guestCount++;
+                guestCountEl.textContent = guestCount;
+            });
+        }
+
+        if (btnSubmitRsvp) {
+            btnSubmitRsvp.addEventListener('click', () => {
+                if (attendingStatus === 'YES') {
+                    alert(`Cảm ơn bạn đã xác nhận tham dự cùng ${guestCount} người! Tụi mình rất hân hạnh được đón tiếp.`);
+                } else {
+                    alert('Cảm ơn bạn đã phản hồi! Tụi mình rất tiếc vì bạn không thể tham dự.');
+                }
+            });
+        }
+
+        // ========== Guestbook Logic (with Select Delete) ==========
+        const inputGuestName = document.getElementById('guestName');
+        const inputGuestWish = document.getElementById('guestWish');
         const btnSubmitWish = document.getElementById('btnSubmitWish');
         const wishesList = document.getElementById('wishesList');
-        const noWishesText = document.getElementById('noWishesText');
 
-        // Khôi phục lời chúc từ LocalStorage nếu có
         let savedWishes = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
-        
+
         function renderAllWishes() {
+            if (!wishesList) return;
             wishesList.innerHTML = '';
+            
             if (savedWishes.length === 0) {
                 wishesList.innerHTML = '<div class="no-wishes" id="noWishesText">Chưa có lời chúc nào. Hãy là người đầu tiên!</div>';
                 return;
@@ -1437,7 +1438,7 @@
             savedWishes.forEach((item, index) => {
                 const wishDiv = document.createElement('div');
                 wishDiv.className = 'wish-item';
-                wishDiv.style.position = 'relative'; // Để định vị nút xóa
+                wishDiv.style.position = 'relative';
                 wishDiv.innerHTML = `
                     <div class="wish-name">${escapeHtml(item.name)}</div>
                     <div class="wish-text">${escapeHtml(item.text)}</div>
@@ -1447,7 +1448,6 @@
             });
         }
 
-        // Hàm xóa một lời chúc theo vị trí (index)
         window.deleteWish = function(index) {
             if (confirm('Bạn có chắc muốn xóa lời chúc này không?')) {
                 savedWishes.splice(index, 1);
@@ -1457,69 +1457,49 @@
         }
 
         function escapeHtml(str) {
+            if (!str) return '';
             return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
 
-        // Load danh sách ban đầu khi mở trang
         renderAllWishes();
 
-        btnSubmitWish.addEventListener('click', () => {
-            const name = guestName.value.trim();
-            const text = guestWish.value.trim();
+        if (btnSubmitWish) {
+            btnSubmitWish.addEventListener('click', () => {
+                const name = inputGuestName ? inputGuestName.value.trim() : '';
+                const text = inputGuestWish ? inputGuestWish.value.trim() : '';
 
-            if (!name || !text) {
-                alert('Vui lòng nhập tên và lời chúc của bạn!');
-                return;
-            }
+                if (!name || !text) {
+                    alert('Vui lòng nhập tên và lời chúc của bạn!');
+                    return;
+                }
 
-            // Thêm lời chúc mới vào mảng (thêm vào cuối hoặc đầu tùy ý)
-            savedWishes.unshift({ name, text });
-            localStorage.setItem('wedding_wishes', JSON.stringify(savedWishes));
-            
-            renderAllWishes();
+                savedWishes.unshift({ name, text });
+                localStorage.setItem('wedding_wishes', JSON.stringify(savedWishes));
+                
+                renderAllWishes();
 
-            guestName.value = '';
-            guestWish.value = '';
-            alert('Cảm ơn lời chúc vô cùng ý nghĩa của bạn!');
-        });
-
-        function escapeHtml(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+                if (inputGuestName) inputGuestName.value = '';
+                if (inputGuestWish) inputGuestWish.value = '';
+                alert('Cảm ơn lời chúc vô cùng ý nghĩa của bạn!');
+            });
         }
-
-        btnSubmitWish.addEventListener('click', () => {
-            const name = guestName.value.trim();
-            const text = guestWish.value.trim();
-
-            if (!name || !text) {
-                alert('Vui lòng nhập tên và lời chúc của bạn!');
-                return;
-            }
-
-            if (noWishesText) noWishesText.style.display = 'none';
-
-            renderWish(name, text);
-
-            savedWishes.push({ name, text });
-            localStorage.setItem('wedding_wishes', JSON.stringify(savedWishes));
-
-            guestName.value = '';
-            guestWish.value = '';
-            alert('Cảm ơn lời chúc vô cùng ý nghĩa của bạn!');
-        });
 
         // ========== Gift Modal Logic ==========
         const giftBoxBtn = document.getElementById('giftBoxBtn');
         const qrModal = document.getElementById('qrModal');
         const qrCloseBtn = document.getElementById('qrCloseBtn');
 
-        giftBoxBtn.addEventListener('click', () => {
-            qrModal.style.display = 'flex';
-        });
+        if (giftBoxBtn && qrModal) {
+            giftBoxBtn.addEventListener('click', () => {
+                qrModal.style.display = 'flex';
+            });
+        }
 
-        qrCloseBtn.addEventListener('click', () => {
-            qrModal.style.display = 'none';
-        });
+        if (qrCloseBtn && qrModal) {
+            qrCloseBtn.addEventListener('click', () => {
+                qrModal.style.display = 'none';
+            });
+        }
 
         window.addEventListener('click', (e) => {
             if (e.target === qrModal) {
