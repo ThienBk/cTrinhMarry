@@ -1417,12 +1417,71 @@
             savedWishes.forEach(item => renderWish(item.name, item.text));
         }
 
-        function renderWish(name, text) {
-            const wishDiv = document.createElement('div');
-            wishDiv.className = 'wish-item';
-            wishDiv.innerHTML = `<div class="wish-name">${escapeHtml(name)}</div><div class="wish-text">${escapeHtml(text)}</div>`;
-            wishesList.insertBefore(wishDiv, wishesList.firstChild);
+// ========== Guestbook Logic ==========
+        const guestName = document.getElementById('guestName');
+        const guestWish = document.getElementById('guestWish');
+        const btnSubmitWish = document.getElementById('btnSubmitWish');
+        const wishesList = document.getElementById('wishesList');
+        const noWishesText = document.getElementById('noWishesText');
+
+        // Khôi phục lời chúc từ LocalStorage nếu có
+        let savedWishes = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
+        
+        function renderAllWishes() {
+            wishesList.innerHTML = '';
+            if (savedWishes.length === 0) {
+                wishesList.innerHTML = '<div class="no-wishes" id="noWishesText">Chưa có lời chúc nào. Hãy là người đầu tiên!</div>';
+                return;
+            }
+
+            savedWishes.forEach((item, index) => {
+                const wishDiv = document.createElement('div');
+                wishDiv.className = 'wish-item';
+                wishDiv.style.position = 'relative'; // Để định vị nút xóa
+                wishDiv.innerHTML = `
+                    <div class="wish-name">${escapeHtml(item.name)}</div>
+                    <div class="wish-text">${escapeHtml(item.text)}</div>
+                    <button onclick="deleteWish(${index})" title="Xóa lời chúc này" style="position: absolute; top: 12px; right: 15px; background: none; border: none; color: #999; font-size: 1.1rem; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#d9534f'" onmouseout="this.style.color='#999'">✕</button>
+                `;
+                wishesList.appendChild(wishDiv);
+            });
         }
+
+        // Hàm xóa một lời chúc theo vị trí (index)
+        window.deleteWish = function(index) {
+            if (confirm('Bạn có chắc muốn xóa lời chúc này không?')) {
+                savedWishes.splice(index, 1);
+                localStorage.setItem('wedding_wishes', JSON.stringify(savedWishes));
+                renderAllWishes();
+            }
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Load danh sách ban đầu khi mở trang
+        renderAllWishes();
+
+        btnSubmitWish.addEventListener('click', () => {
+            const name = guestName.value.trim();
+            const text = guestWish.value.trim();
+
+            if (!name || !text) {
+                alert('Vui lòng nhập tên và lời chúc của bạn!');
+                return;
+            }
+
+            // Thêm lời chúc mới vào mảng (thêm vào cuối hoặc đầu tùy ý)
+            savedWishes.unshift({ name, text });
+            localStorage.setItem('wedding_wishes', JSON.stringify(savedWishes));
+            
+            renderAllWishes();
+
+            guestName.value = '';
+            guestWish.value = '';
+            alert('Cảm ơn lời chúc vô cùng ý nghĩa của bạn!');
+        });
 
         function escapeHtml(str) {
             return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
