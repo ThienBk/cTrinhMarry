@@ -965,6 +965,11 @@
 
             <div class="rsvp-box">
                 <div class="rsvp-desc">ĐỂ VIỆC ĐÓN TIẾP ĐƯỢC CHU ĐÁO NHẤT. TRÂN TRỌNG!</div>
+
+                <!-- Thêm ô nhập tên cho phần RSVP -->
+                <input type="text" id="rsvpName" class="guestbook-input" placeholder="Nhập tên của bạn*"
+                    style="margin-bottom: 1.2rem;" />
+
                 <div class="rsvp-question">BẠN CÓ THAM DỰ KHÔNG?</div>
 
                 <div class="rsvp-options">
@@ -1114,7 +1119,7 @@
         </svg>
     </button>
 
-    <script>
+   <script>
         // ========== Three.js Romantic Particles ==========
         (function () {
             const canvas = document.getElementById('three-canvas');
@@ -1347,8 +1352,11 @@
             }, { once: true });
         }
 
-        // ========== RSVP Logic ==========
-        let attendingStatus = 'YES';
+        // ========== CONFIG URL GOOGLE APPS SCRIPT ==========
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwPH4f_lqEIfJTqx7SSJq800_-eIiE7j9EuldJj5QdaYEKXemQxytrUfez4oeJpxtfGIA/exec';
+
+        // ========== RSVP Logic (Google Sheets Sync) ==========
+        let attendingStatus = 'YES'; 
         let guestCount = 1;
 
         const btnYes = document.getElementById('btnYes');
@@ -1358,6 +1366,7 @@
         const btnMinus = document.getElementById('btnMinus');
         const btnPlus = document.getElementById('btnPlus');
         const btnSubmitRsvp = document.getElementById('btnSubmitRsvp');
+        const inputRsvpName = document.getElementById('rsvpName');
 
         if (btnYes && btnNo) {
             btnYes.addEventListener('click', () => {
@@ -1391,11 +1400,43 @@
 
         if (btnSubmitRsvp) {
             btnSubmitRsvp.addEventListener('click', () => {
-                if (attendingStatus === 'YES') {
-                    alert(`Cảm ơn bạn đã xác nhận tham dự cùng ${guestCount} người! Tụi mình rất hân hạnh được đón tiếp.`);
-                } else {
-                    alert('Cảm ơn bạn đã phản hồi! Tụi mình rất tiếc vì bạn không thể tham dự.');
+                const name = inputRsvpName ? inputRsvpName.value.trim() : '';
+                if (!name) {
+                    alert('Vui lòng nhập tên của bạn trước khi xác nhận!');
+                    inputRsvpName.focus();
+                    return;
                 }
+
+                btnSubmitRsvp.disabled = true;
+                btnSubmitRsvp.textContent = 'Đang gửi...';
+
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        type: 'rsvp', 
+                        name: name, 
+                        status: attendingStatus, 
+                        guests: guestCount 
+                    })
+                })
+                .then(() => {
+                    if (attendingStatus === 'YES') {
+                        alert(`Cảm ơn ${name} đã xác nhận tham dự cùng ${guestCount} người! Tụi mình rất hân hạnh được đón tiếp.`);
+                    } else {
+                        alert(`Cảm ơn ${name} đã phản hồi! Tụi mình rất tiếc vì bạn không thể tham dự.`);
+                    }
+                    inputRsvpName.value = '';
+                })
+                .catch(error => {
+                    console.error('Lỗi gửi RSVP:', error);
+                    alert('Có lỗi xảy ra, vui lòng thử lại sau!');
+                })
+                .finally(() => {
+                    btnSubmitRsvp.disabled = false;
+                    btnSubmitRsvp.textContent = '♡ GỬI XÁC NHẬN THAM DỰ';
+                });
             });
         }
 
@@ -1404,9 +1445,6 @@
         const inputGuestWish = document.getElementById('guestWish');
         const btnSubmitWish = document.getElementById('btnSubmitWish');
         const wishesList = document.getElementById('wishesList');
-
-        // Nhớ thay đoạn chữ trong nháy đơn này thành URL Web App Google Apps Script thực tế của bạn
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziIRQBknxMol_hEQEI579cy8q3_O293HDLteNrNKkkZiN8-OsgFTAAW8N_dEbHwYfyAw/exec';
 
         let savedWishes = [];
 
@@ -1417,7 +1455,7 @@
             fetch(SCRIPT_URL)
                 .then(response => response.json())
                 .then(data => {
-                    savedWishes = data.reverse();
+                    savedWishes = data.reverse(); 
                     renderAllWishes();
                 })
                 .catch(error => {
@@ -1429,7 +1467,7 @@
         function renderAllWishes() {
             if (!wishesList) return;
             wishesList.innerHTML = '';
-
+            
             if (savedWishes.length === 0) {
                 wishesList.innerHTML = '<div class="no-wishes" id="noWishesText">Chưa có lời chúc nào. Hãy là người đầu tiên!</div>';
                 return;
@@ -1448,11 +1486,10 @@
             });
         }
 
-        window.deleteWish = function (index) {
+        window.deleteWish = function(index) {
             if (confirm('Bạn có chắc muốn xóa lời chúc này không?')) {
                 const targetWish = savedWishes[index];
-
-                // Gọi API Google Apps Script để xóa dòng tương ứng trong Google Sheet
+                
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -1460,7 +1497,6 @@
                     body: JSON.stringify({ action: 'delete', name: targetWish.name, text: targetWish.text })
                 }).catch(err => console.log(err));
 
-                // Cập nhật giao diện ngay lập tức
                 savedWishes.splice(index, 1);
                 renderAllWishes();
             }
@@ -1490,22 +1526,26 @@
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'add', name: name, text: text })
+                    body: JSON.stringify({ 
+                        type: 'wish', 
+                        name: name, 
+                        text: text 
+                    })
                 })
-                    .then(() => {
-                        alert('Cảm ơn lời chúc vô cùng ý nghĩa của bạn!');
-                        if (inputGuestName) inputGuestName.value = '';
-                        if (inputGuestWish) inputGuestWish.value = '';
-                        setTimeout(fetchWishes, 1200);
-                    })
-                    .catch(error => {
-                        console.error('Lỗi gửi:', error);
-                        alert('Có lỗi xảy ra, vui lòng thử lại sau!');
-                    })
-                    .finally(() => {
-                        btnSubmitWish.disabled = false;
-                        btnSubmitWish.textContent = 'GỬI LỜI CHÚC';
-                    });
+                .then(() => {
+                    alert('Cảm ơn lời chúc vô cùng ý nghĩa của bạn!');
+                    if (inputGuestName) inputGuestName.value = '';
+                    if (inputGuestWish) inputGuestWish.value = '';
+                    setTimeout(fetchWishes, 1200);
+                })
+                .catch(error => {
+                    console.error('Lỗi gửi:', error);
+                    alert('Có lỗi xảy ra, vui lòng thử lại sau!');
+                })
+                .finally(() => {
+                    btnSubmitWish.disabled = false;
+                    btnSubmitWish.textContent = 'GỬI LỜI CHÚC';
+                });
             });
         }
 
