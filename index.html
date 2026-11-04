@@ -164,7 +164,7 @@
             letter-spacing: 2px;
             font-weight: 600;
             opacity: 0.9;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
             animation: bounce 2.5s infinite;
         }
 
@@ -509,7 +509,8 @@
             border: 1px solid rgba(179, 139, 70, 0.25);
         }
 
-        .guestbook-input, .guestbook-textarea {
+        .guestbook-input,
+        .guestbook-textarea {
             width: 100%;
             padding: 0.9rem 1.2rem;
             border: 1px solid rgba(179, 139, 70, 0.4);
@@ -524,7 +525,8 @@
             transition: border-color 0.3s;
         }
 
-        .guestbook-input:focus, .guestbook-textarea:focus {
+        .guestbook-input:focus,
+        .guestbook-textarea:focus {
             border-color: var(--deep-green);
         }
 
@@ -631,7 +633,7 @@
             width: 100%;
             text-align: center;
             position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(179, 139, 70, 0.4);
         }
 
@@ -985,7 +987,7 @@
             <div class="rsvp-box">
                 <div class="rsvp-desc">ĐỂ VIỆC ĐÓN TIẾP ĐƯỢC CHU ĐÁO NHẤT. TRÂN TRỌNG!</div>
                 <div class="rsvp-question">BẠN CÓ THAM DỰ KHÔNG?</div>
-                
+
                 <div class="rsvp-options">
                     <button class="rsvp-btn-opt active-yes" id="btnYes">✓ Có, mình sẽ đến</button>
                     <button class="rsvp-btn-opt inactive-no" id="btnNo">✕ Rất tiếc, mình bận</button>
@@ -1031,7 +1033,8 @@
 
             <div class="gift-icon-container" id="giftBoxBtn">
                 <div style="font-size: 5rem; cursor: pointer;" title="Nhấp để mừng cưới">🎁</div>
-                <p style="margin-top: 0.5rem; font-size: 1.1rem; color: var(--deep-green); font-weight: 700;">Nhấp vào hộp quà để mừng cưới</p>
+                <p style="margin-top: 0.5rem; font-size: 1.1rem; color: var(--deep-green); font-weight: 700;">Nhấp vào
+                    hộp quà để mừng cưới</p>
             </div>
         </section>
 
@@ -1039,9 +1042,12 @@
         <div class="qr-modal" id="qrModal">
             <div class="qr-modal-content">
                 <span class="qr-close-btn" id="qrCloseBtn">&times;</span>
-                <h3 style="font-family: 'Playfair Display', serif; color: var(--deep-green); font-size: 1.5rem; font-weight: 700;">Hộp Quà Mừng Cưới</h3>
+                <h3
+                    style="font-family: 'Playfair Display', serif; color: var(--deep-green); font-size: 1.5rem; font-weight: 700;">
+                    Hộp Quà Mừng Cưới</h3>
                 <p style="margin-top: 0.5rem; font-size: 1.05rem; color: #555;">Cảm ơn tình cảm quý báu của bạn!</p>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=CamOnBanDaMungCuoi" alt="Mã QR mừng cưới" class="qr-img" />
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=CamOnBanDaMungCuoi"
+                    alt="Mã QR mừng cưới" class="qr-img" />
                 <p style="font-size: 1.1rem; font-weight: 700; color: var(--deep-green);">Ngô Trinh & Hoàng Hà</p>
             </div>
         </div>
@@ -1133,7 +1139,7 @@
         </svg>
     </button>
 
-   <script>
+    <script>
         // ========== Three.js Romantic Particles ==========
         (function () {
             const canvas = document.getElementById('three-canvas');
@@ -1367,7 +1373,7 @@
         }
 
         // ========== RSVP Logic ==========
-        let attendingStatus = 'YES'; 
+        let attendingStatus = 'YES';
         let guestCount = 1;
 
         const btnYes = document.getElementById('btnYes');
@@ -1418,18 +1424,37 @@
             });
         }
 
-        // ========== Guestbook Logic (with Select Delete) ==========
+        // ========== Guestbook Logic (Google Sheets Sync with Delete) ==========
         const inputGuestName = document.getElementById('guestName');
         const inputGuestWish = document.getElementById('guestWish');
         const btnSubmitWish = document.getElementById('btnSubmitWish');
         const wishesList = document.getElementById('wishesList');
 
-        let savedWishes = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
+        // Nhớ thay đoạn chữ trong nháy đơn này thành URL Web App Google Apps Script thực tế của bạn
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziIRQBknxMol_hEQEI579cy8q3_O293HDLteNrNKkkZiN8-OsgFTAAW8N_dEbHwYfyAw/exec';
+
+        let savedWishes = [];
+
+        function fetchWishes() {
+            if (!wishesList) return;
+            wishesList.innerHTML = '<div class="no-wishes">Đang tải lời chúc...</div>';
+
+            fetch(SCRIPT_URL)
+                .then(response => response.json())
+                .then(data => {
+                    savedWishes = data.reverse();
+                    renderAllWishes();
+                })
+                .catch(error => {
+                    console.error('Lỗi tải lời chúc:', error);
+                    wishesList.innerHTML = '<div class="no-wishes">Không thể tải danh sách lời chúc.</div>';
+                });
+        }
 
         function renderAllWishes() {
             if (!wishesList) return;
             wishesList.innerHTML = '';
-            
+
             if (savedWishes.length === 0) {
                 wishesList.innerHTML = '<div class="no-wishes" id="noWishesText">Chưa có lời chúc nào. Hãy là người đầu tiên!</div>';
                 return;
@@ -1448,10 +1473,20 @@
             });
         }
 
-        window.deleteWish = function(index) {
+        window.deleteWish = function (index) {
             if (confirm('Bạn có chắc muốn xóa lời chúc này không?')) {
+                const targetWish = savedWishes[index];
+
+                // Gọi API Google Apps Script để xóa dòng tương ứng trong Google Sheet
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'delete', name: targetWish.name, text: targetWish.text })
+                }).catch(err => console.log(err));
+
+                // Cập nhật giao diện ngay lập tức
                 savedWishes.splice(index, 1);
-                localStorage.setItem('wedding_wishes', JSON.stringify(savedWishes));
                 renderAllWishes();
             }
         }
@@ -1461,7 +1496,7 @@
             return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
 
-        renderAllWishes();
+        fetchWishes();
 
         if (btnSubmitWish) {
             btnSubmitWish.addEventListener('click', () => {
@@ -1473,14 +1508,29 @@
                     return;
                 }
 
-                savedWishes.unshift({ name, text });
-                localStorage.setItem('wedding_wishes', JSON.stringify(savedWishes));
-                
-                renderAllWishes();
+                btnSubmitWish.disabled = true;
+                btnSubmitWish.textContent = 'Đang gửi...';
 
-                if (inputGuestName) inputGuestName.value = '';
-                if (inputGuestWish) inputGuestWish.value = '';
-                alert('Cảm ơn lời chúc vô cùng ý nghĩa của bạn!');
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'add', name: name, text: text })
+                })
+                    .then(() => {
+                        alert('Cảm ơn lời chúc vô cùng ý nghĩa của bạn!');
+                        if (inputGuestName) inputGuestName.value = '';
+                        if (inputGuestWish) inputGuestWish.value = '';
+                        setTimeout(fetchWishes, 1200);
+                    })
+                    .catch(error => {
+                        console.error('Lỗi gửi:', error);
+                        alert('Có lỗi xảy ra, vui lòng thử lại sau!');
+                    })
+                    .finally(() => {
+                        btnSubmitWish.disabled = false;
+                        btnSubmitWish.textContent = 'GỬI LỜI CHÚC';
+                    });
             });
         }
 
