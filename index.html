@@ -225,7 +225,7 @@
             position: relative;
             max-width: 550px;
             width: 100%;
-            background: #ffffff;
+            background: var(--white);
             padding: 12px;
             border-radius: 16px;
             box-shadow: 0 15px 35px rgba(30, 54, 45, 0.15);
@@ -340,6 +340,315 @@
             color: #555555;
             margin-top: 0.8rem;
             font-weight: 500;
+        }
+
+        /* RSVP Section - Styled consistently with site */
+        .rsvp-box {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 15px 45px rgba(30, 54, 45, 0.12);
+            border: 1px solid rgba(179, 139, 70, 0.35);
+            text-align: center;
+        }
+
+        .rsvp-desc {
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #444;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .rsvp-question {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--deep-green);
+            margin-bottom: 1.2rem;
+            font-weight: 700;
+        }
+
+        .rsvp-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .rsvp-btn-opt {
+            flex: 1;
+            min-width: 220px;
+            padding: 0.8rem 1.2rem;
+            border-radius: 30px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .rsvp-btn-opt.active-yes {
+            background: var(--deep-green);
+            color: var(--white);
+            border: 1.5px solid var(--deep-green);
+        }
+
+        .rsvp-btn-opt.inactive-no {
+            background: transparent;
+            color: var(--deep-green);
+            border: 1.5px solid var(--soft-gold);
+        }
+
+        .rsvp-btn-opt.active-no {
+            background: var(--soft-green);
+            color: var(--white);
+            border: 1.5px solid var(--soft-green);
+        }
+
+        .rsvp-btn-opt.inactive-yes {
+            background: transparent;
+            color: var(--deep-green);
+            border: 1.5px solid var(--soft-gold);
+        }
+
+        .rsvp-counter-box {
+            border: 1.5px solid rgba(179, 139, 70, 0.4);
+            border-radius: 30px;
+            padding: 0.6rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.8rem;
+            background: var(--white);
+        }
+
+        .rsvp-counter-label {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .rsvp-counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .counter-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: #e8dfd1;
+            color: var(--deep-green);
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .counter-btn.plus {
+            background: var(--deep-green);
+            color: var(--white);
+        }
+
+        .counter-btn:hover {
+            opacity: 0.9;
+        }
+
+        .counter-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+            color: var(--deep-green);
+        }
+
+        .rsvp-submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 30px;
+            background: var(--deep-green);
+            color: var(--white);
+            border: none;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(30, 54, 45, 0.25);
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .rsvp-submit-btn:hover {
+            background: #12221c;
+            transform: translateY(-2px);
+        }
+
+        /* Guestbook Section */
+        .guestbook-box {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 650px;
+            margin: 0 auto;
+            box-shadow: 0 10px 35px rgba(30, 54, 45, 0.08);
+            border: 1px solid rgba(179, 139, 70, 0.25);
+        }
+
+        .guestbook-input, .guestbook-textarea {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 1px solid rgba(179, 139, 70, 0.4);
+            border-radius: 8px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            outline: none;
+            background: var(--white);
+            color: var(--text-dark);
+            transition: border-color 0.3s;
+        }
+
+        .guestbook-input:focus, .guestbook-textarea:focus {
+            border-color: var(--deep-green);
+        }
+
+        .guestbook-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .guestbook-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .guestbook-submit-btn {
+            background: var(--deep-green);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 25px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .guestbook-submit-btn:hover {
+            background: #12221c;
+            transform: translateY(-2px);
+        }
+
+        .wishes-list {
+            max-width: 650px;
+            margin: 2rem auto 0;
+        }
+
+        .wish-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(30, 54, 45, 0.05);
+            border-left: 4px solid var(--soft-gold);
+            border: 1px solid rgba(179, 139, 70, 0.2);
+            border-left-width: 4px;
+        }
+
+        .wish-name {
+            font-weight: 700;
+            color: var(--deep-green);
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .wish-text {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .no-wishes {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Gift Box Section */
+        .gift-box-section {
+            text-align: center;
+        }
+
+        .gift-icon-container {
+            margin-top: 1.5rem;
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .gift-icon-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Modal QR */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .qr-modal-content {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 1px solid rgba(179, 139, 70, 0.4);
+        }
+
+        .qr-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .qr-img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 12px;
+            margin: 1rem 0;
         }
 
         /* Parents */
@@ -667,6 +976,76 @@
             </div>
         </section>
 
+        <!-- RSVP Form Section -->
+        <section class="fade-in">
+            <h2 class="section-title">Xác Nhận Tham Dự</h2>
+            <div class="section-subtitle">Mong quý khách báo trước giúp tụi em</div>
+            <div class="divider"></div>
+
+            <div class="rsvp-box">
+                <div class="rsvp-desc">ĐỂ VIỆC ĐÓN TIẾP ĐƯỢC CHU ĐÁO NHẤT. TRÂN TRỌNG!</div>
+                <div class="rsvp-question">BẠN CÓ THAM DỰ KHÔNG?</div>
+                
+                <div class="rsvp-options">
+                    <button class="rsvp-btn-opt active-yes" id="btnYes">✓ Có, mình sẽ đến</button>
+                    <button class="rsvp-btn-opt inactive-no" id="btnNo">✕ Rất tiếc, mình bận</button>
+                </div>
+
+                <div class="rsvp-counter-box" id="guestCounterBox">
+                    <span class="rsvp-counter-label">Số người tham dự (gồm cả bạn)</span>
+                    <div class="rsvp-counter-controls">
+                        <button class="counter-btn" id="btnMinus">-</button>
+                        <span class="counter-value" id="guestCount">1</span>
+                        <button class="counter-btn plus" id="btnPlus">+</button>
+                    </div>
+                </div>
+
+                <button class="rsvp-submit-btn" id="btnSubmitRsvp">♡ GỬI XÁC NHẬN THAM DỰ</button>
+            </div>
+        </section>
+
+        <!-- Guestbook Section -->
+        <section class="fade-in">
+            <h2 class="section-title">Sổ Lưu Bút</h2>
+            <div class="section-subtitle">Gửi lời chúc mừng</div>
+            <div class="divider"></div>
+
+            <div class="guestbook-box">
+                <input type="text" id="guestName" class="guestbook-input" placeholder="Nhập tên*" />
+                <textarea id="guestWish" class="guestbook-textarea" placeholder="Nhập lời chúc*"></textarea>
+                <div class="guestbook-actions">
+                    <button class="guestbook-submit-btn" id="btnSubmitWish">GỬI LỜI CHÚC</button>
+                </div>
+            </div>
+
+            <div class="wishes-list" id="wishesList">
+                <div class="no-wishes" id="noWishesText">Chưa có lời chúc nào. Hãy là người đầu tiên!</div>
+            </div>
+        </section>
+
+        <!-- Gift Box Section -->
+        <section class="fade-in gift-box-section">
+            <h2 class="section-title">HỘP QUÀ MỪNG</h2>
+            <div class="section-subtitle">Gửi mừng cưới chú rể & cô dâu</div>
+            <div class="divider"></div>
+
+            <div class="gift-icon-container" id="giftBoxBtn">
+                <div style="font-size: 5rem; cursor: pointer;" title="Nhấp để mừng cưới">🎁</div>
+                <p style="margin-top: 0.5rem; font-size: 1.1rem; color: var(--deep-green); font-weight: 700;">Nhấp vào hộp quà để mừng cưới</p>
+            </div>
+        </section>
+
+        <!-- QR Code Modal -->
+        <div class="qr-modal" id="qrModal">
+            <div class="qr-modal-content">
+                <span class="qr-close-btn" id="qrCloseBtn">&times;</span>
+                <h3 style="font-family: 'Playfair Display', serif; color: var(--deep-green); font-size: 1.5rem; font-weight: 700;">Hộp Quà Mừng Cưới</h3>
+                <p style="margin-top: 0.5rem; font-size: 1.05rem; color: #555;">Cảm ơn tình cảm quý báu của bạn!</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=CamOnBanDaMungCuoi" alt="Mã QR mừng cưới" class="qr-img" />
+                <p style="font-size: 1.1rem; font-weight: 700; color: var(--deep-green);">Ngô Trinh & Hoàng Hà</p>
+            </div>
+        </div>
+
         <!-- Parents -->
         <section class="fade-in">
             <h2 class="section-title">Gia đình</h2>
@@ -766,11 +1145,9 @@
             const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.z = 30;
 
-            // Soft ambient
             const ambient = new THREE.AmbientLight(0xffffff, 0.6);
             scene.add(ambient);
 
-            // Particle system - floating petals / soft orbs
             const particleCount = 120;
             const positions = new Float32Array(particleCount * 3);
             const velocities = [];
@@ -810,7 +1187,6 @@
             geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
             geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-            // Soft circle texture
             const canvasTex = document.createElement('canvas');
             canvasTex.width = 64;
             canvasTex.height = 64;
@@ -837,7 +1213,6 @@
             const particles = new THREE.Points(geometry, material);
             scene.add(particles);
 
-            // Gentle floating hearts (simple sprites)
             const heartCount = 18;
             const hearts = [];
             const heartGeo = new THREE.PlaneGeometry(0.6, 0.6);
@@ -877,7 +1252,6 @@
                     pos[i * 3 + 1] += v.y;
                     pos[i * 3 + 2] += v.z;
 
-                    // Reset when out of view
                     if (pos[i * 3 + 1] > 25) {
                         pos[i * 3 + 1] = -25;
                         pos[i * 3] = (Math.random() - 0.5) * 60;
@@ -885,7 +1259,6 @@
                 }
                 geometry.attributes.position.needsUpdate = true;
 
-                // Hearts
                 hearts.forEach((h, i) => {
                     h.position.y += h.userData.speed;
                     h.position.x += Math.sin(time * 0.5 + i) * h.userData.sway;
@@ -896,7 +1269,6 @@
                     }
                 });
 
-                // Very gentle camera sway
                 camera.position.x = Math.sin(time * 0.15) * 1.2;
                 camera.position.y = Math.cos(time * 0.1) * 0.8;
                 camera.lookAt(0, 0, 0);
@@ -914,7 +1286,6 @@
 
         // ========== Countdown ==========
         (function () {
-            // Target: 29 Nov 2026 11:00 (Vietnam time UTC+7)
             const target = new Date('2026-11-29T11:00:00+07:00').getTime();
 
             function update() {
@@ -972,7 +1343,6 @@
             }
         });
 
-        // Tự động bật tiếng khi người dùng tương tác lần đầu tiên với trang web
         document.addEventListener('click', function enableAudioOnFirstClick() {
             if (audio.muted) {
                 audio.muted = false;
@@ -985,9 +1355,118 @@
                     console.log('Unmute error:', err);
                 });
             }
-            // Xóa sự kiện sau lần click đầu tiên để không lặp lại
             document.removeEventListener('click', enableAudioOnFirstClick);
         }, { once: true });
+
+        // ========== RSVP Logic ==========
+        let attendingStatus = 'YES'; 
+        let guestCount = 1;
+
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+        const guestCounterBox = document.getElementById('guestCounterBox');
+        const guestCountEl = document.getElementById('guestCount');
+        const btnMinus = document.getElementById('btnMinus');
+        const btnPlus = document.getElementById('btnPlus');
+        const btnSubmitRsvp = document.getElementById('btnSubmitRsvp');
+
+        btnYes.addEventListener('click', () => {
+            attendingStatus = 'YES';
+            btnYes.className = 'rsvp-btn-opt active-yes';
+            btnNo.className = 'rsvp-btn-opt inactive-no';
+            guestCounterBox.style.display = 'flex';
+        });
+
+        btnNo.addEventListener('click', () => {
+            attendingStatus = 'NO';
+            btnNo.className = 'rsvp-btn-opt active-no';
+            btnYes.className = 'rsvp-btn-opt inactive-yes';
+            guestCounterBox.style.display = 'none';
+        });
+
+        btnMinus.addEventListener('click', () => {
+            if (guestCount > 1) {
+                guestCount--;
+                guestCountEl.textContent = guestCount;
+            }
+        });
+
+        btnPlus.addEventListener('click', () => {
+            guestCount++;
+            guestCountEl.textContent = guestCount;
+        });
+
+        btnSubmitRsvp.addEventListener('click', () => {
+            if (attendingStatus === 'YES') {
+                alert(`Cảm ơn bạn đã xác nhận tham dự cùng ${guestCount} người! Tụi mình rất hân hạnh được đón tiếp.`);
+            } else {
+                alert('Cảm ơn bạn đã phản hồi! Tụi mình rất tiếc vì bạn không thể tham dự.');
+            }
+        });
+
+        // ========== Guestbook Logic ==========
+        const guestName = document.getElementById('guestName');
+        const guestWish = document.getElementById('guestWish');
+        const btnSubmitWish = document.getElementById('btnSubmitWish');
+        const wishesList = document.getElementById('wishesList');
+        const noWishesText = document.getElementById('noWishesText');
+
+        const savedWishes = JSON.parse(localStorage.getItem('wedding_wishes') || '[]');
+        if (savedWishes.length > 0) {
+            noWishesText.style.display = 'none';
+            savedWishes.forEach(item => renderWish(item.name, item.text));
+        }
+
+        function renderWish(name, text) {
+            const wishDiv = document.createElement('div');
+            wishDiv.className = 'wish-item';
+            wishDiv.innerHTML = `<div class="wish-name">${escapeHtml(name)}</div><div class="wish-text">${escapeHtml(text)}</div>`;
+            wishesList.insertBefore(wishDiv, wishesList.firstChild);
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        btnSubmitWish.addEventListener('click', () => {
+            const name = guestName.value.trim();
+            const text = guestWish.value.trim();
+
+            if (!name || !text) {
+                alert('Vui lòng nhập tên và lời chúc của bạn!');
+                return;
+            }
+
+            if (noWishesText) noWishesText.style.display = 'none';
+
+            renderWish(name, text);
+
+            savedWishes.push({ name, text });
+            localStorage.setItem('wedding_wishes', JSON.stringify(savedWishes));
+
+            guestName.value = '';
+            guestWish.value = '';
+            alert('Cảm ơn lời chúc vô cùng ý nghĩa của bạn!');
+        });
+
+        // ========== Gift Modal Logic ==========
+        const giftBoxBtn = document.getElementById('giftBoxBtn');
+        const qrModal = document.getElementById('qrModal');
+        const qrCloseBtn = document.getElementById('qrCloseBtn');
+
+        giftBoxBtn.addEventListener('click', () => {
+            qrModal.style.display = 'flex';
+        });
+
+        qrCloseBtn.addEventListener('click', () => {
+            qrModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === qrModal) {
+                qrModal.style.display = 'none';
+            }
+        });
     </script>
 </body>
 
