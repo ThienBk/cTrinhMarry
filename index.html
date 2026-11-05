@@ -281,7 +281,7 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background: url('JULI4601-1.jpg') center 25% / cover no-repeat;
+            background: url('JULI4601.jpg') center 25% / cover no-repeat;
             filter: brightness(0.85);
             transform: scale(1.02);
             transition: transform 6s ease-out;
@@ -824,7 +824,7 @@
             position: fixed;
             inset: 0;
             background: rgba(0, 0, 0, 0.7);
-            z-index: 100;
+            z-index: 1000;
             align-items: center;
             justify-content: center;
             padding: 1rem;
@@ -856,6 +856,59 @@
             max-width: 250px;
             border-radius: 12px;
             margin: 1rem 0;
+        }
+
+        /* Cụm nút bấm trong Modal QR (Chuyển tiền nhanh & Đóng) */
+        .qr-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .qr-btn-transfer {
+            flex: 1;
+            background: var(--deep-green);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1rem;
+            border-radius: 25px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(30, 54, 45, 0.2);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .qr-btn-transfer:hover {
+            background: #12221c;
+            transform: translateY(-2px);
+        }
+
+        .qr-btn-close-alt {
+            flex: 1;
+            background: #e8dfd1;
+            color: var(--deep-green);
+            border: none;
+            padding: 0.8rem 1rem;
+            border-radius: 25px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .qr-btn-close-alt:hover {
+            background: #d4c7b3;
+            transform: translateY(-2px);
         }
 
         /* Parents */
@@ -932,34 +985,7 @@
             font-weight: 700;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 4rem 1.5rem 3rem;
-            background: linear-gradient(to bottom, transparent, rgba(30, 54, 45, 0.08));
-        }
-
-        .footer-names {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.6rem;
-            color: var(--deep-green);
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-quote {
-            font-style: italic;
-            color: #333333;
-            max-width: 500px;
-            margin: 1rem auto 2rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .footer-heart {
-            font-size: 1.6rem;
-            color: var(--soft-gold);
-        }
-
+        
 
         /* Quick Menu */
         .quick-menu {
@@ -1235,7 +1261,7 @@
             <div class="divider"></div>
             <div class="wedding-photo-container">
                 <div class="photo-card photo-reveal">
-                    <img src="JULI4601-1.jpg" alt="Ảnh cưới Ngô Trinh & Hoàng Hà" loading="lazy" />
+                    <img src="JULI4601.jpg" alt="Ảnh cưới Ngô Trinh & Hoàng Hà" loading="lazy" />
                 </div>
             </div>
         </section>
@@ -1321,7 +1347,6 @@
 
         <!-- Guestbook Section -->
         <section class="fade-in" id="wishes">
-            <!-- Chỗ này bấm đúp 3 lần vào chữ "Sổ Lưu Bút" để kích hoạt quyền Chủ nhà xóa bất kỳ lời chúc nào -->
             <h2 class="section-title" id="adminUnlockTitle" title="Chạm 3 lần để đăng nhập quyền chủ nhà">Sổ Lưu Bút
             </h2>
             <div class="section-subtitle">Gửi lời chúc mừng</div>
@@ -1353,7 +1378,7 @@
             </div>
         </section>
 
-        <!-- QR Code Modal -->
+        <!-- QR Code Modal (Đã tích hợp file qr-img.jpg và nút chuyển tiền nhanh) -->
         <div class="qr-modal" id="qrModal">
             <div class="qr-modal-content">
                 <span class="qr-close-btn" id="qrCloseBtn">&times;</span>
@@ -1361,16 +1386,28 @@
                     style="font-family: 'Playfair Display', serif; color: var(--deep-green); font-size: 1.5rem; font-weight: 700;">
                     Hộp Quà Mừng Cưới</h3>
                 <p style="margin-top: 0.5rem; font-size: 1.05rem; color: #555;">Cảm ơn tình cảm quý báu của bạn!</p>
-                <img src="./qr-img.jpg"
-                    alt="Mã QR mừng cưới" class="qr-img" />
-                <p style="font-size: 1.1rem; font-weight: 700; color: var(--deep-green);">Ngô Trinh & Hoàng Hà</p>
+
+                <!-- Hiển thị ảnh QR của cô dâu (qr-img.jpg) -->
+                <img src="qr-img.jpg" alt="Mã QR mừng cưới Ngô Thị Trinh" class="qr-img" />
+
+                <p style="font-size: 1.1rem; font-weight: 700; color: var(--deep-green);">NGO THI TRINH</p>
+                <p style="font-size: 0.95rem; color: #666; margin-bottom: 5px;">Techcombank: 9199 9988 8888</p>
+
+                <!-- Cụm nút: Chuyển tiền nhanh (mở app ngân hàng quét ảnh QR hoặc intent) & Nút Đóng -->
+                <div class="qr-actions">
+                    <button class="qr-btn-close-alt" id="qrAltCloseBtn">Đóng</button>
+                    <a href="https://img.vietqr.io/image/TCB-919999888888-compact2.png" target="_blank"
+                        class="qr-btn-transfer">
+                        ⚡ Mở App Chuyển Tiền
+                    </a>
+                </div>
             </div>
         </div>
 
         <!-- Parents -->
         <section class="fade-in">
             <h2 class="section-title">Gia đình</h2>
-            <div class="section-subtitle">Dengan tình yêu của bố mẹ</div>
+            <div class="section-subtitle">Với tình yêu của bố mẹ</div>
             <div class="divider"></div>
 
             <div class="parents-grid">
@@ -1432,6 +1469,7 @@
         <source src="music.mp3" type="audio/mp3">
         Trình duyệt của bạn không hỗ trợ phát audio.
     </audio>
+
     <button class="music-btn" id="musicBtn" title="Bật/Tắt nhạc nền">
         <svg id="playIcon" viewBox="0 0 24 24">
             <path d="M8 5v14l11-7z" />
@@ -1812,11 +1850,8 @@
 
         let savedWishes = [];
         let isAdminLoggedIn = localStorage.getItem('wedding_admin') === 'true';
-
-        // Mật khẩu chủ nhà (bro có thể đổi chữ '123456' thành mật khẩu tùy ý)
         const ADMIN_PASS = '123456';
 
-        // Kích hoạt quyền chủ nhà khi click 3 lần vào tiêu đề "Sổ Lưu Bút"
         if (adminUnlockTitle) {
             let clickCount = 0;
             adminUnlockTitle.addEventListener('click', () => {
@@ -1870,7 +1905,6 @@
                 return;
             }
 
-            // Lấy danh sách token của các lời chúc do chính trình duyệt này từng viết
             let myTokens = JSON.parse(localStorage.getItem('my_wish_tokens') || '[]');
 
             savedWishes.forEach((item, index) => {
@@ -1878,7 +1912,6 @@
                 wishDiv.className = 'wish-item';
                 wishDiv.style.position = 'relative';
 
-                // Kiểm tra xem lời chúc này có phải do chính trình duyệt này viết (khớp token) HOẶC đang đăng nhập Admin không
                 let isOwner = item.token && myTokens.includes(item.token);
                 let canDelete = isAdminLoggedIn || isOwner;
 
@@ -1929,7 +1962,6 @@
                     return;
                 }
 
-                // Tạo một mã định danh riêng biệt (token) cho lời chúc này
                 const wishToken = 'token_' + Math.random().toString(36).substring(2) + Date.now();
 
                 btnSubmitWish.disabled = true;
@@ -1943,11 +1975,10 @@
                         type: 'wish',
                         name: name,
                         text: text,
-                        token: wishToken // Gửi kèm token lên Google Sheets
+                        token: wishToken
                     })
                 })
                     .then(() => {
-                        // Lưu token vào trình duyệt của khách để họ có quyền xóa lời chúc của chính họ sau này
                         let myTokens = JSON.parse(localStorage.getItem('my_wish_tokens') || '[]');
                         myTokens.push(wishToken);
                         localStorage.setItem('my_wish_tokens', JSON.stringify(myTokens));
@@ -1968,10 +1999,11 @@
             });
         }
 
-        // ========== Gift Modal Logic ==========
+        // ========== Gift Modal & QR Transfer Logic ==========
         const giftBoxBtn = document.getElementById('giftBoxBtn');
         const qrModal = document.getElementById('qrModal');
         const qrCloseBtn = document.getElementById('qrCloseBtn');
+        const qrAltCloseBtn = document.getElementById('qrAltCloseBtn');
 
         if (giftBoxBtn && qrModal) {
             giftBoxBtn.addEventListener('click', () => {
@@ -1981,6 +2013,12 @@
 
         if (qrCloseBtn && qrModal) {
             qrCloseBtn.addEventListener('click', () => {
+                qrModal.style.display = 'none';
+            });
+        }
+
+        if (qrAltCloseBtn && qrModal) {
+            qrAltCloseBtn.addEventListener('click', () => {
                 qrModal.style.display = 'none';
             });
         }
