@@ -766,9 +766,35 @@
             transform: translateY(-2px);
         }
 
+        /* Khung hiển thị danh sách lời chúc dạng cuộn (Scrollable) */
         .wishes-list {
             max-width: 650px;
             margin: 2rem auto 0;
+            max-height: 380px;
+            /* Chiều cao tối đa hiển thị tầm 3-4 lời chúc */
+            overflow-y: auto;
+            /* Hiện thanh cuộn khi danh sách dài */
+            padding-right: 8px;
+            /* Khoảng trống cho thanh cuộn */
+        }
+
+        /* Tùy chỉnh thanh cuộn cho mượt và đẹp mắt */
+        .wishes-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .wishes-list::-webkit-scrollbar-track {
+            background: rgba(179, 139, 70, 0.1);
+            border-radius: 10px;
+        }
+
+        .wishes-list::-webkit-scrollbar-thumb {
+            background: var(--soft-gold);
+            border-radius: 10px;
+        }
+
+        .wishes-list::-webkit-scrollbar-thumb:hover {
+            background: var(--deep-green);
         }
 
         .wish-item {
