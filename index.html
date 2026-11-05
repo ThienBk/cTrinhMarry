@@ -823,8 +823,9 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 10000;
+            /* Đảm bảo luôn nằm trên cùng */
             align-items: center;
             justify-content: center;
             padding: 1rem;
@@ -833,13 +834,17 @@
         .qr-modal-content {
             background: var(--white);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 1.8rem 1.5rem;
             max-width: 400px;
             width: 100%;
             text-align: center;
             position: relative;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(179, 139, 70, 0.4);
+            max-height: 90vh;
+            /* Giới hạn chiều cao trên màn hình di động */
+            overflow-y: auto;
+            /* Cho phép cuộn nếu màn hình quá nhỏ */
         }
 
         .qr-close-btn {
@@ -985,7 +990,7 @@
             font-weight: 700;
         }
 
-        
+
 
         /* Quick Menu */
         .quick-menu {
@@ -997,7 +1002,7 @@
             flex-direction: column;
             align-items: flex-end;
             gap: 0.4rem;
-            z-index: 1;
+            z-index: 4;
         }
 
         .menu-item-link {
@@ -1395,10 +1400,12 @@
                 <p style="font-size: 0.95rem; color: #666; margin-bottom: 5px;">Techcombank: 9199 9988 8888</p>
 
                 <!-- Cụm nút: Chuyển tiền nhanh (mở app ngân hàng quét ảnh QR hoặc intent) & Nút Đóng -->
+                <!-- Cụm nút: Chuyển tiền nhanh (Tự động mở App Ngân hàng qua VietQR) & Nút Đóng -->
                 <div class="qr-actions">
                     <button class="qr-btn-close-alt" id="qrAltCloseBtn">Đóng</button>
-                    <a href="https://img.vietqr.io/image/TCB-919999888888-compact2.png" target="_blank"
-                        class="qr-btn-transfer">
+                    <!-- Link chuẩn VietQR tự động nhận diện và mở app ngân hàng trên điện thoại -->
+                    <a href="https://api.vietqr.io/image/TCB/919999888888/compact2.jpg?amount=0&addInfo=MungCuoiNgoTrinhHoangHah"
+                        target="_blank" class="qr-btn-transfer">
                         ⚡ Mở App Chuyển Tiền
                     </a>
                 </div>
